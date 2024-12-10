@@ -1,11 +1,11 @@
 import { Header } from '@/components/header';
 import { StyleSheet, Image, Platform, Text } from 'react-native';
 
-export default function Profile() {
+export default function Order() {
   return (
     <>
       <Header/>
-      <Text>PROFILE</Text>
+      <Text>PEDIDOS</Text>
     </>
   );
 }
