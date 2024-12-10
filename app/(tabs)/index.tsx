@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, View, Text, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { Image, StyleSheet, Platform, View, Text, TouchableOpacity, ScrollView, FlatList, Button } from 'react-native';
 import { Header } from '@/components/header';
 
 import servicesJson from "@/constants/Services.json";
@@ -23,13 +23,17 @@ export default function HomeScreen() {
       return (
         <View style={{ flexDirection: 'row', marginBottom: 10, width: '100%' }}>
           <View style={{ flex: 1, paddingRight: 5 }}>
-            <Image source={requireImg(item.image)}/>
-            <Text>{item.description}</Text>
+            <Image source={requireImg(item.image)} style={{position: 'relative'}}/>
+            <View style={{position: 'absolute', width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+              <Text style={{textAlign: 'center', fontWeight: 'bold', color: 'white', fontSize: 20, paddingBottom: 10}}>{item.description}</Text>
+            </View>
           </View>
           {servicesJson[index + 1] && (
             <View style={{ flex: 1, paddingLeft: 5 }}>
-              <Image source={requireImg(servicesJson[index + 1].image)} />
-              <Text>{servicesJson[index + 1].description}</Text>
+              <Image source={requireImg(servicesJson[index + 1].image)} style={{position: 'relative'}} />
+              <View style={{position: 'absolute', width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+                <Text style={{textAlign: 'center', fontWeight: 'bold', color: 'white', fontSize: 20, paddingBottom: 10}}>{servicesJson[index + 1].description}</Text>
+              </View>
             </View>
           )}
         </View>
@@ -56,11 +60,11 @@ export default function HomeScreen() {
         <View style={styles.services}>
           <Text style={{fontWeight: 'bold', fontSize: 20}}>Services</Text>
           <View style={styles.servicos}>
-          <FlatList
-            data={servicesJson}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id.toString()}
-          />
+            <FlatList
+              data={servicesJson}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id.toString()}
+            />
           </View>
         </View>
       </ScrollView>
@@ -138,6 +142,7 @@ const styles = StyleSheet.create({
   },
   servicos: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginTop: 20
   }
 });
