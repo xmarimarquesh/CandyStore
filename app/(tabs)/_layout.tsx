@@ -11,6 +11,7 @@ export default function TabLayout() {
       <Tabs>
         <Tabs.Screen name="index" options={{ headerShown: false }}/>
         <Tabs.Screen name="products" options={{ headerShown: false }}/>
+        <Tabs.Screen name="profile" options={{ headerShown: false }}/>
       </Tabs>
     </>
   );
