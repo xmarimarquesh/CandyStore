@@ -3,36 +3,36 @@
         "id": "1",
         "type": "1",
         "description": "Slice Cakes",
-        "image": "../assets/images/sec1.png"
+        "image": "sec1.png"
     },
     {
         "id": "2",
         "type": "1",
         "description": "Whole Cakes",
-        "image": "../assets/images/sec2.png"
+        "image": "sec2.png"
     },
     {
         "id": "3",
         "type": "1",
         "description": "Cup Cakes",
-        "image": "../assets/images/sec3.png"
+        "image": "sec3.png"
     },
     {
         "id": "4",
         "type": "1",
         "description": "Macarrons",
-        "image": "../assets/images/sec4.png"
+        "image": "sec4.png"
     },
     {
         "id": "5",
         "type": "1",
         "description": "Pastries",
-        "image": "../assets/images/sec5.png"
+        "image": "sec5.png"
     },
     {
         "id": "6",
         "type": "1",
         "description": "Cookies",
-        "image": "../assets/images/sec6.png"
+        "image": "sec6.png"
     }
 ]

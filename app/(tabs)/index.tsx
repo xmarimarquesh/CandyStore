@@ -1,9 +1,43 @@
-import { Image, StyleSheet, Platform, View, Text, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Platform, View, Text, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { Header } from '@/components/header';
 
 import servicesJson from "@/constants/Services.json";
-
 export default function HomeScreen() {
+
+  const requireImg = (img: string) => {
+
+    const imageMap : any = {
+      "sec1.png": require("@/assets/images/sec1.png"),
+      "sec2.png": require("@/assets/images/sec2.png"),
+      "sec3.png": require("@/assets/images/sec3.png"),
+      "sec4.png": require("@/assets/images/sec4.png"),
+      "sec5.png": require("@/assets/images/sec5.png"),
+      "sec6.png": require("@/assets/images/sec6.png"),
+    };
+  
+    return imageMap[img] || require("@/assets/default.png");
+  }
+
+  const renderItem = ({ item, index } : any) => {
+    if (index % 2 === 0) {
+      return (
+        <View style={{ flexDirection: 'row', marginBottom: 10, width: '100%' }}>
+          <View style={{ flex: 1, paddingRight: 5 }}>
+            <Image source={requireImg(item.image)}/>
+            <Text>{item.description}</Text>
+          </View>
+          {servicesJson[index + 1] && (
+            <View style={{ flex: 1, paddingLeft: 5 }}>
+              <Image source={requireImg(servicesJson[index + 1].image)} />
+              <Text>{servicesJson[index + 1].description}</Text>
+            </View>
+          )}
+        </View>
+      );
+    }
+    return null;
+  };
+
   return (
     <View style={styles.view}>
       <Header/>
@@ -11,31 +45,34 @@ export default function HomeScreen() {
         <Text style={styles.text}>Welcome, Fulano!</Text>
         <Image style={styles.carrin} source={require('@/assets/images/cart.png')}></Image>
       </View>
-      <View style={{marginTop: 24}}>
-        <Image source={require('../../assets/images/boloPrincipal.png')} alt="img" style={styles.img} />
-        <View style={styles.cake}>
-          <Text style={styles.cakeText}>Find your<br/>favorite cake</Text>
-          <TouchableOpacity style={styles.cakeButton}><Text style={{color: 'white', textAlign: 'center'}}>Shop Now</Text></TouchableOpacity>
+      <ScrollView style={{flex: 1}}>
+        <View style={{marginTop: 24}}>
+          <Image source={require('../../assets/images/boloPrincipal.png')} alt="img" style={styles.img} />
+          <View style={styles.cake}>
+            <Text style={styles.cakeText}>Find your<br/>favorite cake</Text>
+            <TouchableOpacity style={styles.cakeButton}><Text style={{color: 'white', textAlign: 'center'}}>Shop Now</Text></TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <View style={styles.services}>
-        <Text style={{fontWeight: 'bold', fontSize: 20}}>Services</Text>
-        <View style={styles.servicos}>
-          {servicesJson.map((serv) => (
-            <View key={serv.id}>
-              {/* <Image source={require(serv.image)}/> */}
-              <Text>{serv.description}</Text>
-            </View>
-          ))}
+        <View style={styles.services}>
+          <Text style={{fontWeight: 'bold', fontSize: 20}}>Services</Text>
+          <View style={styles.servicos}>
+          <FlatList
+            data={servicesJson}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id.toString()}
+          />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   view: {
-    width: "100%"
+    width: "100%",
+    display: 'flex',
+    flex: 1
   },
   img: {
     width: "100%",
@@ -84,9 +121,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   carrin: {
+    zIndex: 1,
     position: 'relative',
     bottom: 40,
-    zIndex: 1,
     shadowColor: '#000', 
     shadowOffset: { width: 2, height:2 }, 
     shadowOpacity: 0.8, 
