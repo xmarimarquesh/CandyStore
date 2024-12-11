@@ -1,8 +1,7 @@
 import { Header } from '@/components/header';
 import React from 'react';
-import { StyleSheet, Image, Platform, Text } from 'react-native';
+import { StyleSheet, Image, Platform, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { View } from 'react-native-reanimated/lib/typescript/Animated';
 // expo install expo-linear-gradient
 
 export default function Profile() {

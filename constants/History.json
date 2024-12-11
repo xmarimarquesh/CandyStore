@@ -1,0 +1,22 @@
+[
+    {
+        "id": "1H574CF",
+        "price": 11,
+        "data": "05/12/24",
+        "time": "16:48",
+        "data_finished": "05/12/24",
+        "time_finished": "17:31",
+        "products": [{
+            "quantidade": 1,
+            "image": "prod2.png",
+            "name": "Chocolate Cake",
+            "price": 7
+        },
+        {
+            "quantidade": 3,
+            "image": "prod1.png",
+            "name": "Cup Cake",
+            "price": 4
+        }]
+    }
+]

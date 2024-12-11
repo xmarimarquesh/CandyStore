@@ -23,7 +23,12 @@ export default function Product() {
       return (
         <View style={{ flexDirection: 'row', marginBottom: 10, width: '100%' }}>
           <View style={{ flex: 1, paddingRight: 5, display: 'flex', alignItems: 'center' }}>
-            <Image source={requireImg(item.image)}/>
+            <View>
+              <Image style={{position: 'relative'}} source={requireImg(item.image)}/>
+              <View style={{padding: 5 ,position: 'absolute', width: '100%', display: 'flex', alignItems: 'flex-end'}}>
+                <Text style={{ backgroundColor: 'white', padding: 2, paddingHorizontal: 10, borderRadius: 3, color: '#1B7263', fontWeight: 'bold', fontSize: 16}}>${item.price}</Text>
+              </View>
+            </View>
             <Text style={{textAlign: 'center', fontWeight: '500', color: 'black', fontSize: 16, paddingBottom: 10}}>{item.description}</Text>
             <TouchableOpacity style={{backgroundColor: '#1B7263', width: 60, borderRadius: 4, padding: 3, display: 'flex', alignItems: 'center'}}>
               <Image source={require('@/assets/images/carrin.png')}/>
@@ -31,7 +36,12 @@ export default function Product() {
           </View>
           {productData[index + 1] && (
             <View style={{ flex: 1, paddingLeft: 5, display: 'flex', alignItems: 'center' }}>
-              <Image source={requireImg(productData[index + 1].image)} />
+              <View>
+                <Image source={requireImg(productData[index + 1].image)} />
+                <View style={{padding: 5 ,position: 'absolute', width: '100%', display: 'flex', alignItems: 'flex-end'}}>
+                  <Text style={{ backgroundColor: 'white', padding: 2, paddingHorizontal: 10, borderRadius: 3, color: '#1B7263', fontWeight: 'bold', fontSize: 16}}>${productData[index + 1].price}</Text>
+                </View>
+              </View>
               <Text style={{textAlign: 'center', fontWeight: '500', color: 'black', fontSize: 16, paddingBottom: 10}}>{productData[index + 1].description}</Text>
               <TouchableOpacity style={{backgroundColor: '#1B7263', width: 60, borderRadius: 4, padding: 3, display: 'flex', alignItems: 'center'}}>
                 <Image source={require('@/assets/images/carrin.png')}/>
@@ -52,8 +62,8 @@ export default function Product() {
       </View>
       <View style={{width: '80%'}}>
         <TextInput placeholder='Search product' style={styles.input} />
-        <View style={{position: 'fixed', width: '100%', justifyContent: 'flex-end'}}>
-          <Image source={require("@/assets/images/loupe.png")} />
+        <View style={{position: 'fixed', width: '80%',padding: 3, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+          <Image source={require("@/assets/images/loupe.png")} style={{width: 20, height: 20}} />
         </View>
       </View>
       <Text style={styles.title}>Products</Text>
