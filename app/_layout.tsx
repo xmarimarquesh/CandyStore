@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
 import { Poppins_700Bold, Poppins_400Regular, useFonts } from '@expo-google-fonts/poppins';
-
+// npm install @expo-google-fonts/poppins
 
 export default function RootLayout() {
 
