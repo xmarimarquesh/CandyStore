@@ -9,6 +9,10 @@ export default function Register(){
     const irTabs = () => {
         navigation.navigate("(tabs)");
     }
+
+    const irLogin = () => {
+        navigation.navigate("index");
+    }
     
     return(
         <View>
@@ -29,12 +33,12 @@ export default function Register(){
                 <Text style={styles.divGeral}>Confirm password</Text>
                 <TextInput placeholder='Confirm password' style={styles.input}></TextInput>
                 <View style={styles.divBtn}>
-                    <TouchableOpacity style={styles.btn}>
+                    <TouchableOpacity onPress={irLogin} style={styles.btn}>
                         <Text style={styles.textBtn}>Sign up</Text>
                     </TouchableOpacity>
                     <View style={styles.aDiv}>
                         <Text style={styles.divGeral}>Already have an account? </Text>
-                        <TouchableOpacity onPress={irTabs}>
+                        <TouchableOpacity onPress={irLogin}>
                             <Text style={styles.sign}>Sign in</Text>
                         </TouchableOpacity>
                     </View>

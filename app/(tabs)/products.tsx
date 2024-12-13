@@ -1,7 +1,12 @@
 import { Header } from '@/components/header';
 import { StyleSheet, Image, Platform, Text, View, TextInput, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import productData from "@/constants/Products.json";
+import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '@/components/RootLayout';
+
 export default function Product() {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  
   const requireImg = (img: string) => {
 
     const imageMap : any = {
@@ -17,6 +22,11 @@ export default function Product() {
   
     return imageMap[img] || require("@/assets/default.png");
   }
+
+  const irCart = () => {
+    navigation.navigate("cart");
+  }
+
 
   const renderItem = ({ item, index } : any) => {
     if (index % 2 === 0) {
@@ -58,7 +68,9 @@ export default function Product() {
     <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1}}>
       <Header/>
       <View style={styles.cart}>
-        <Image style={styles.carrin} source={require('@/assets/images/cart.png')}></Image>
+        <TouchableOpacity onPress={irCart}>
+          <Image style={styles.carrin} source={require('@/assets/images/cart.png')}></Image>
+        </TouchableOpacity>
       </View>
       <View style={{width: '80%'}}>
         <TextInput placeholder='Search product' style={styles.input} />

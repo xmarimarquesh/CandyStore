@@ -1,9 +1,13 @@
 import { Image, StyleSheet, Platform, View, Text, TouchableOpacity, ScrollView, FlatList, Button } from 'react-native';
 import { Header } from '@/components/header';
+import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
 
 import servicesJson from "@/constants/Services.json";
+import { RootStackParamList } from '@/components/RootLayout';
 export default function HomeScreen() {
 
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  
   const requireImg = (img: string) => {
 
     const imageMap : any = {
@@ -17,6 +21,11 @@ export default function HomeScreen() {
   
     return imageMap[img] || require("@/assets/default.png");
   }
+
+  const irCart = () => {
+    navigation.navigate("cart");
+  }
+
 
   const renderItem = ({ item, index } : any) => {
     if (index % 2 === 0) {
@@ -47,7 +56,9 @@ export default function HomeScreen() {
       <Header/>
       <View style={styles.cart}>
         <Text style={styles.text}>Welcome, Fulano!</Text>
-        <Image style={styles.carrin} source={require('@/assets/images/cart.png')}></Image>
+        <TouchableOpacity onPress={irCart}>
+          <Image style={styles.carrin} source={require('@/assets/images/cart.png')}></Image>
+        </TouchableOpacity>
       </View>
       <ScrollView style={{flex: 1}}>
         <View style={{marginTop: 24}}>

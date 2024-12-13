@@ -5,6 +5,7 @@ export type RootStackParamList = {
   "(tabs)": undefined;
   "+not-found": undefined;
   "register": undefined;
+  "cart": undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();

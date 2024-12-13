@@ -32,7 +32,7 @@ export default function Login(){
                     <Text style={styles.a}>Forgot password</Text>
                 </TouchableOpacity>
                 <View style={styles.divBtn}>
-                    <TouchableOpacity style={styles.btn}>
+                    <TouchableOpacity onPress={toTabs} style={styles.btn}>
                         <Text style={styles.textBtn}>Sign in</Text>
                     </TouchableOpacity>
                     <View style={styles.aDiv}>

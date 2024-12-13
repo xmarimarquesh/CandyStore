@@ -1,7 +1,11 @@
 import { Header } from '@/components/header';
 import { StyleSheet, Image, Platform, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import pedidosData from "@/constants/Orders.json"
+import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '@/components/RootLayout';
+
 export default function Order() {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const renderItem = ({ item, index } : any) => {
 
@@ -62,11 +66,19 @@ export default function Order() {
       </View>
     );
   }
+
+  const irCart = () => {
+    navigation.navigate("cart");
+  }
+
+
   return (
     <View style={{display: 'flex', alignItems: 'center', flex: 1}}>
       <Header/>
       <View style={styles.cart}>
-        <Image style={styles.carrin} source={require('@/assets/images/cart.png')}></Image>
+        <TouchableOpacity onPress={irCart}>
+          <Image style={styles.carrin} source={require('@/assets/images/cart.png')}></Image>
+        </TouchableOpacity>
       </View>
       <ScrollView style={{width: '100%'}}>
         <Text style={styles.title}>My Orders</Text>
@@ -76,7 +88,7 @@ export default function Order() {
             data={pedidosData}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
-            />
+          />
         </View>
       </ScrollView>
     </View>
@@ -96,7 +108,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 12,
     justifyContent: 'flex-end',
-    width: '100%'
+    width: '100%',
+    backgroundColor: 'transparent' 
   },
   carrin: {
     zIndex: 1,
