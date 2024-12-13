@@ -2,7 +2,7 @@ import { Header } from '@/components/header';
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, Platform, Text, TextInput, TouchableOpacity, Modal } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-// expo install expo-linear-gradient
+// npm install expo-linear-gradient
 // https://reactnative.dev/docs/modal
 
 export default function Profile() {
