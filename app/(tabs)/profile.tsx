@@ -7,6 +7,8 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 // npm install expo-linear-gradient
 // https://reactnative.dev/docs/modal
 
+import userData from "@/constants/Profile.json"
+
 export default function Profile() {
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -21,27 +23,27 @@ export default function Profile() {
                     <View style={styles.divImg}>
                         <Image source={require("../../assets/images/user.png")} style={styles.imgUser}/>
                     </View>
-                    <TouchableOpacity style={styles.divIcon4}>
+                    <TouchableOpacity style={styles.divIcon2}>
                         <Image source={require("../../assets/images/lapis.png")} style={styles.imgIcon}/>
                     </TouchableOpacity>
-                    <Text style={styles.username}>Username</Text>
+                    <Text style={styles.username}>{userData.username}</Text>
                     <View style={styles.divInfo}>
                         <Text style={styles.label}>E-mail</Text>
-                        <TextInput placeholder='User email' style={styles.input}></TextInput>
+                        <TextInput placeholder='User email' style={styles.input} value={userData.email}></TextInput>
                         <Text style={styles.label}>Phone</Text>
-                        <TextInput placeholder='Phone number' style={styles.input}></TextInput>
+                        <TextInput placeholder='Phone number' style={styles.input} value={userData.phone}></TextInput>
                         <Text style={styles.label}>Address</Text>
                         <View style={styles.inputBox}>
-                            <Text style={styles.textBox}>81350-268</Text>
-                            <Text style={styles.textBox}>Rua tal de tal de tal - nº 171</Text>
-                            <Text style={styles.textBox}>Curitiba, PR</Text>
-                            <Text style={styles.textBox}>Receptor: Mariana Hipólito</Text>
+                            <Text style={styles.textBox}>{userData.cep}</Text>
+                            <Text style={styles.textBox}>{userData.rua}</Text>
+                            <Text style={styles.textBox}>{userData.cidade}, {userData.estado}</Text>
+                            <Text style={styles.textBox}>Receptor: {userData.receptor}</Text>
                         </View>
                         <View style={styles.divBtn}>
                             <TouchableOpacity style={styles.btn} onPress={() => setModalVisible(true)}>
                                 <Text style={styles.textBtn}>Edit informations</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.divIcon} >
+                            <TouchableOpacity style={styles.divIcon} onPress={() => setModalVisible(true)}>
                                 <Image source={require("../../assets/images/lapis.png")} style={styles.imgIcon}/>
                             </TouchableOpacity>
                         </View>
@@ -57,15 +59,15 @@ export default function Profile() {
                     </Pressable>
                     <Text style={styles.edit}>Edit info</Text>
                     <Text style={styles.label}>E-mail</Text>
-                    <TextInput placeholder='User email' style={styles.input}></TextInput>
+                    <TextInput placeholder='User email' style={styles.input} value={userData.email}></TextInput>
                     <Text style={styles.label}>Phone</Text>
-                    <TextInput placeholder='Phone number' style={styles.input}></TextInput>
+                    <TextInput placeholder='Phone number' style={styles.input} value={userData.phone}></TextInput>
                     <Text style={styles.label}>Address</Text>
                     <View style={styles.inputBox}>
-                        <Text style={styles.textBox}>81350-268</Text>
-                        <Text style={styles.textBox}>Rua tal de tal de tal - nº 171</Text>
-                        <Text style={styles.textBox}>Curitiba, PR</Text>
-                        <Text style={styles.textBox}>Receptor: Mariana Hipólito</Text>
+                        <Text style={styles.textBox}>{userData.cep}</Text>
+                        <Text style={styles.textBox}>{userData.rua}</Text>
+                        <Text style={styles.textBox}>{userData.cidade}, {userData.estado}</Text>
+                        <Text style={styles.textBox}>Receptor: {userData.receptor}</Text>
                     </View>
                     <View style={styles.divBtn}>
                         <TouchableOpacity style={styles.btn}>
@@ -95,8 +97,6 @@ const styles = StyleSheet.create({
     },
     divBody: {
         backgroundColor: "#f9f9f9"
-    },
-    body: {
     },
     img: {
         width: "100%",
@@ -198,10 +198,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         position: "fixed",
-        right: 80,
-        bottom: 120
+        right: 85,
+        bottom: 130
     },
-    divIcon4: {
+    divIcon2: {
         backgroundColor: "#F9F9F9",
         width: 22,
         height: 22,
