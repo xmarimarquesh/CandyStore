@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { RootStackParamList } from '@/components/RootLayout';
 // npm install expo-linear-gradient
 
-export default function ForgotPass() {
+export default function codePass() {
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
@@ -23,11 +23,17 @@ export default function ForgotPass() {
           </View>
           <View>
               <Text style={[styles.h2]}>Recover password</Text>
-              <Text style={styles.divGeral}>E-mail</Text>
-              <TextInput placeholder='Your e-mail' style={styles.input}></TextInput>
+              <Text style={styles.divGeral}>Enter the code you received</Text>
+              <View style={styles.divInputs}>
+                <TextInput style={styles.input}></TextInput>
+                <TextInput style={styles.input}></TextInput>
+                <TextInput style={styles.input}></TextInput>
+                <TextInput style={styles.input}></TextInput>
+                <TextInput style={styles.input}></TextInput>
+              </View>
               <View style={styles.divBtn}>
                 <TouchableOpacity onPress={toLogin} style={styles.btn}>
-                  <Text style={styles.textBtn}>Send email</Text>
+                  <Text style={styles.textBtn}>Confirm</Text>
                 </TouchableOpacity>
               </View>
           </View>
@@ -46,7 +52,8 @@ const styles = StyleSheet.create({
   divGeral: {
     fontFamily: "Poppins",
     color: "white",
-    width: 320
+    width: 320,
+    display: "flex"
   },
   logo: {
     width: 70,
@@ -68,6 +75,15 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
     marginBottom: 30
   },
+  divInputs: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 25,
+    marginBottom: 25,
+    width: "100%",
+    gap: 25
+  },
   input: {
     borderWidth: 0,
     borderBottomWidth: 2,
@@ -78,7 +94,8 @@ const styles = StyleSheet.create({
     padding: 8,
     borderTopRightRadius: 5,
     borderTopLeftRadius: 5,
-    fontFamily: "Poppins"
+    fontFamily: "Poppins",
+    width: 35,
   },
   div: {
     display: 'flex',
