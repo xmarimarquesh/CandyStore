@@ -70,7 +70,7 @@ export default function Profile() {
                         <Text style={styles.textBox}>Receptor: {userData.receptor}</Text>
                     </View>
                     <View style={styles.divBtn}>
-                        <TouchableOpacity style={styles.btn}>
+                        <TouchableOpacity style={styles.btn} onPress={() => setModalVisible(!modalVisible)}>
                             <Text style={styles.textBtn}>Save changes</Text>
                         </TouchableOpacity>
                     </View>
