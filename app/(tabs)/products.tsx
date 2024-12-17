@@ -3,6 +3,7 @@ import { StyleSheet, Image, Platform, Text, View, TextInput, FlatList, ScrollVie
 import productData from "@/constants/Products.json";
 import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@/components/RootLayout';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Product() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
