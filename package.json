@@ -18,11 +18,7 @@
     "@expo-google-fonts/poppins": "^0.2.3",
     "@expo/vector-icons": "^14.0.2",
     "@gorhom/bottom-sheet": "^5.0.6",
-<<<<<<< HEAD
     "@react-native-async-storage/async-storage": "^1.24.0",
-=======
-    "@react-native-async-storage/async-storage": "^2.1.0",
->>>>>>> mariana
     "@react-navigation/bottom-tabs": "^7.0.0",
     "@react-navigation/native": "^7.0.13",
     "@react-navigation/stack": "^7.0.18",
