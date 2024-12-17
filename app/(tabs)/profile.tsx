@@ -6,6 +6,7 @@ import { StackNavigationProp} from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // npm install expo-linear-gradient
 // https://reactnative.dev/docs/modal
 
@@ -17,9 +18,12 @@ export default function Profile() {
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-    const toLogin = () => {
+    const toLogin = async () => {
         navigation.popToTop();
         navigation.navigate('index');
+
+        const cart = await AsyncStorage.getItem('my-cart');
+        await AsyncStorage.setItem('my-cart', JSON.stringify([]));
     }
     return (
         <LinearGradient style={styles.gradiente} start={{x:.2,y:1}} end={{x:1,y:.3}} locations={[0.1,0.6]} colors={['#f9f9f9', '#f9f9f9', '#f9f9f9',]}>

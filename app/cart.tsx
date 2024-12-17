@@ -3,9 +3,29 @@ import { StyleSheet, Image, Platform, Text, View, TextInput, FlatList, ScrollVie
 import cartData from "@/constants/Cart.json";
 import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@/components/RootLayout';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
 
 export default function Cart() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [cartItems, setCartItems] = useState([]);
+  const [qtd, setQtd] = useState<number>(0);
+
+
+  useEffect(() => {
+    const getCartProducts = async() => {
+      try {
+        const cart = await AsyncStorage.getItem("my-cart");
+        const cartProducts = cart ? JSON.parse(cart) : [];
+        setCartItems(cartProducts);
+      }
+      catch (e) {
+        console.log("Carrinho vazio")
+      }
+    }
+
+    getCartProducts();
+  }, []);
 
   const requireImg = (img: string) => {
 
@@ -57,7 +77,7 @@ export default function Cart() {
       <Text style={styles.title}>My Cart</Text>
       <ScrollView style={{width:'90%', marginBottom: 10}}>
         <FlatList
-          data={cartData} 
+          data={cartItems} 
           renderItem={renderItem}
           keyExtractor={(item) => item.id} 
         />

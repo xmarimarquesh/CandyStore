@@ -4,6 +4,7 @@ import productData from "@/constants/Products.json";
 import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@/components/RootLayout';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNFS from 'react-native-fs';
 
 export default function Product() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -28,6 +29,26 @@ export default function Product() {
     navigation.navigate("cart");
   }
 
+  const storeData = async (product : any) => {
+    try {
+      console.log("ENTROU")
+
+      const cart = await AsyncStorage.getItem('my-cart');
+      const cartProducts = cart ? JSON.parse(cart) : []
+
+      cartProducts.push(product);
+      await AsyncStorage.setItem('my-cart', JSON.stringify(cartProducts));
+
+      //salvar em um arquivo
+      // const products = JSON.stringify(cartProducts);
+      // console.log(products);
+      // const path = RNFS.DocumentDirectoryPath + '/constants/CartProducts.json';
+      // await RNFS.writeFile(path, products, 'utf8');
+
+    } catch (e) {
+      console.log("Erro ao salvar produto no carrinho");
+    }
+  }
 
   const renderItem = ({ item, index } : any) => {
     if (index % 2 === 0) {
@@ -54,7 +75,7 @@ export default function Product() {
                 </View>
               </View>
               <Text style={{textAlign: 'center', fontWeight: '500', color: 'black', fontSize: 16, paddingBottom: 10}}>{productData[index + 1].description}</Text>
-              <TouchableOpacity style={{backgroundColor: '#1B7263', width: 60, borderRadius: 4, padding: 3, display: 'flex', alignItems: 'center'}}>
+              <TouchableOpacity style={{backgroundColor: '#1B7263', width: 60, borderRadius: 4, padding: 3, display: 'flex', alignItems: 'center'}} onPress={() => storeData(productData[index + 1])}>
                 <Image source={require('@/assets/images/carrin.png')}/>
               </TouchableOpacity>
             </View>
