@@ -6,12 +6,17 @@ import { StackNavigationProp} from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 // npm install expo-linear-gradient
 // https://reactnative.dev/docs/modal
 
 import userData from "@/constants/Profile.json"
 import { RootStackParamList } from '@/components/RootLayout';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface User{
+    name:String;
+    email:String;
+};
 
 export default function Profile() {
 
@@ -25,6 +30,29 @@ export default function Profile() {
         const cart = await AsyncStorage.getItem('my-cart');
         await AsyncStorage.setItem('my-cart', JSON.stringify([]));
     }
+
+    const [data,setData] = useState<User>()
+
+    const loadProfile = async()=>{
+        let item = await AsyncStorage.getItem("users");
+        let idOp = await AsyncStorage.getItem("userId");
+    
+        if(item ==null || idOp===null){
+            navigation.navigate('index');
+        return;
+        }
+    
+        let id = Number(idOp)
+        let user:User[] = item==null?[]:JSON.parse(item);
+
+        setData(user[id])
+    }
+
+    useEffect(()=>{
+        setInterval(async()=>{await loadProfile()},1000)
+    },[])
+
+
     return (
         <LinearGradient style={styles.gradiente} start={{x:.2,y:1}} end={{x:1,y:.3}} locations={[0.1,0.6]} colors={['#f9f9f9', '#f9f9f9', '#f9f9f9',]}>
             <View style={styles.divGeral}>
@@ -37,7 +65,7 @@ export default function Profile() {
                     <TouchableOpacity style={styles.divIcon2}>
                         <Image source={require("../../assets/images/lapis.png")} style={styles.imgIcon}/>
                     </TouchableOpacity>
-                    <Text style={styles.username}>{userData.username}</Text>
+                    <Text style={styles.username}>{data?.name}</Text>
                     <View style={styles.divInfo}>
                         <Text style={styles.label}>E-mail</Text>
                         <TextInput placeholder='User email' style={styles.input} value={userData.email}></TextInput>

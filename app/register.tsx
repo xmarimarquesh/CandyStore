@@ -1,18 +1,36 @@
 import { RootStackParamList } from '@/components/RootLayout';
 import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
 import { Text, Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface User{
+    name:String;
+    email:String;
+    password:String;
+};
 
 export default function Register(){
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const irTabs = () => {
-        navigation.navigate("(tabs)");
-    }
-
     const irLogin = () => {
         navigation.navigate("index");
     }
+    
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error,setError] = useState(false);
+
+    const onPress = async() => {
+        var item = await AsyncStorage.getItem("users");
+        var user:User[] = item==null?[]:JSON.parse(item);
+        user.push({name,email,password})
+        await AsyncStorage.setItem("users",JSON.stringify(user));
+        navigation.navigate('index');
+    };
     
     return(
         <View>
@@ -25,15 +43,15 @@ export default function Register(){
                     </View>
                 </View>
                 <Text style={styles.divGeral}>E-mail</Text>
-                <TextInput placeholder='Your e-mail' style={styles.input}></TextInput>
+                <TextInput placeholder='Your e-mail' value={email} style={styles.input} onChangeText={setEmail}></TextInput>
                 <Text style={styles.divGeral}>Name</Text>
-                <TextInput placeholder='Your name' style={styles.input}></TextInput>
+                <TextInput placeholder='Your name' value={name} style={styles.input} onChangeText={setName}></TextInput>
                 <Text style={styles.divGeral}>Password</Text>
-                <TextInput placeholder='Password' style={styles.input}></TextInput>
+                <TextInput placeholder='Password' value={password} style={styles.input} onChangeText={setPassword}></TextInput>
                 <Text style={styles.divGeral}>Confirm password</Text>
-                <TextInput placeholder='Confirm password' style={styles.input}></TextInput>
+                <TextInput placeholder='Confirm password' value={confirmPassword} style={styles.input} onChangeText={setConfirmPassword}></TextInput>
                 <View style={styles.divBtn}>
-                    <TouchableOpacity onPress={irLogin} style={styles.btn}>
+                    <TouchableOpacity onPress={onPress} style={styles.btn}>
                         <Text style={styles.textBtn}>Sign up</Text>
                     </TouchableOpacity>
                     <View style={styles.aDiv}>
@@ -76,7 +94,6 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         borderBottomWidth: 2,
         borderColor: "#1B7263",
-        backgroundColor: "#F9F9F9",
         marginTop: 10,
         marginBottom: 20,
         padding: 8,

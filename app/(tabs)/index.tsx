@@ -1,9 +1,9 @@
 import { Image, StyleSheet, Platform, View, Text, TouchableOpacity, ScrollView, FlatList, Button } from 'react-native';
 import { Header } from '@/components/header';
 import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
-
 import servicesJson from "@/constants/Services.json";
 import { RootStackParamList } from '@/components/RootLayout';
+
 export default function HomeScreen() {
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -25,7 +25,6 @@ export default function HomeScreen() {
   const irCart = () => {
     navigation.navigate("cart");
   }
-
 
   const renderItem = ({ item, index } : any) => {
     if (index % 2 === 0) {

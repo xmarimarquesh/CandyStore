@@ -1,7 +1,15 @@
 import { RootStackParamList } from '@/components/RootLayout';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
 import { Text, Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+
+interface User{
+    name:String;
+    email:String;
+    password:String;
+};
 
 export default function Login(){
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -13,6 +21,23 @@ export default function Login(){
     const toRegister = () => {
         navigation.navigate("register");
     }
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const onPress = async() => {
+        var item = await AsyncStorage.getItem("users");
+        var user:User[] = item==null?[]:JSON.parse(item);
+        user.map(async (item,index)=>{
+            if(item.email === email && item.password === password){
+                await AsyncStorage.setItem("userId",index.toString());
+                navigation.navigate("(tabs)");
+                setEmail('')
+                setPassword('')
+            }
+        })
+        console.log(user)
+    };
     
     return(
         <View>
@@ -25,14 +50,14 @@ export default function Login(){
                     </View>
                 </View>
                 <Text style={styles.divGeral}>E-mail</Text>
-                <TextInput placeholder='Your e-mail' style={styles.input}></TextInput>
+                <TextInput value={email} onChangeText={setEmail} placeholder='Your e-mail' style={styles.input}></TextInput>
                 <Text style={styles.divGeral}>Password</Text>
-                <TextInput placeholder='Your password' style={styles.input}></TextInput>
+                <TextInput value={password} onChangeText={setPassword} placeholder='Your password' style={styles.input}></TextInput>
                 <TouchableOpacity style={styles.a} onPress={toTabs}>
                     <Text style={styles.a}>Forgot password</Text>
                 </TouchableOpacity>
                 <View style={styles.divBtn}>
-                    <TouchableOpacity onPress={toTabs} style={styles.btn}>
+                    <TouchableOpacity onPress={onPress} style={styles.btn}>
                         <Text style={styles.textBtn}>Sign in</Text>
                     </TouchableOpacity>
                     <View style={styles.aDiv}>
@@ -75,7 +100,6 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         borderBottomWidth: 2,
         borderColor: "#1B7263",
-        backgroundColor: "#F9F9F9",
         marginTop: 10,
         marginBottom: 20,
         padding: 8,
