@@ -1,8 +1,11 @@
 import { Header } from '@/components/header';
 import { StyleSheet, Image, Platform, Text, View, TextInput, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import cartData from "@/constants/Cart.json";
+import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '@/components/RootLayout';
 
 export default function Cart() {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const requireImg = (img: string) => {
 
@@ -20,6 +23,10 @@ export default function Cart() {
     return imageMap[img] || require("@/assets/default.png");
   }
 
+  const irTabs = () => {
+    navigation.navigate("(tabs)");
+  }
+
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.cartItem}>
       <Image source={requireImg(item.image)} style={styles.productImage} />
@@ -27,23 +34,34 @@ export default function Cart() {
         <Text style={styles.productDescription}>{item.description}</Text>
         <Text style={styles.productPrice}>${item.price}</Text>
       </View>
+      <View style={{width: '25%'}}>
+        <View style={{display: 'flex', flexDirection: 'row', width: 48}}>
+          <TouchableOpacity style={{backgroundColor: '#FF3869', width: 24, height: 24, justifyContent: 'center', alignItems: 'center', borderRadius: '100%'}}>
+            <Text style={{color: 'white', fontWeight: '500', fontSize: 20, textAlign: 'center', marginBottom: 4}}>+</Text>
+          </TouchableOpacity>
+          <Text style={{marginLeft: 6, marginRight: 6, fontWeight: '500', fontSize: 18}}>1</Text>
+          <TouchableOpacity style={{backgroundColor: '#FF3869', width: 24, height: 24, justifyContent: 'center', alignItems: 'center', borderRadius: '100%'}}>
+            <Text style={{color: 'white', fontWeight: '500', fontSize: 24, textAlign: 'center', marginBottom: 4}}>-</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 
   return (
     <View style={{display: 'flex', alignItems: 'center', flex: 1, width: '100%'}}>
       <Header/>
-      <View style={{width: '90%', margin: 16}}>
+      <TouchableOpacity onPress={irTabs} style={{width: '90%', marginTop: 16}}>
         <Image source={require('@/assets/images/arrow.png')} style={{width: 36, height: 36}}/>
-      </View>
-      <View style={{width:'100%'}}>
-        <Text style={styles.title}>My Cart</Text>
+      </TouchableOpacity>
+      <Text style={styles.title}>My Cart</Text>
+      <ScrollView style={{width:'90%', marginBottom: 10}}>
         <FlatList
           data={cartData} 
           renderItem={renderItem}
           keyExtractor={(item) => item.id} 
-          />
-      </View>
+        />
+      </ScrollView>
     </View>
   );
 }
@@ -54,7 +72,7 @@ const styles = StyleSheet.create({
     fontSize: 21,
     width: '100%',
     textAlign: 'center',
-    marginVertical: 16,
+    marginBottom: 20,
   },
   cartItem: {
     width: '100%',
