@@ -1,6 +1,8 @@
 import { Header } from '@/components/header';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Image, Platform, Text, TextInput, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp} from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
@@ -8,12 +10,17 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 // https://reactnative.dev/docs/modal
 
 import userData from "@/constants/Profile.json"
+import { RootStackParamList } from '@/components/RootLayout';
 
 export default function Profile() {
 
     const [modalVisible, setModalVisible] = useState(false);
-    const bottomSheetRef = useRef<BottomSheet>(null);
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+    const toLogin = () => {
+        navigation.popToTop();
+        navigation.navigate('index');
+    }
     return (
         <LinearGradient style={styles.gradiente} start={{x:.2,y:1}} end={{x:1,y:.3}} locations={[0.1,0.6]} colors={['#f9f9f9', '#f9f9f9', '#f9f9f9',]}>
             <View style={styles.divGeral}>
@@ -47,6 +54,9 @@ export default function Profile() {
                                 <Image source={require("../../assets/images/lapis.png")} style={styles.imgIcon}/>
                             </TouchableOpacity>
                         </View>
+                        <TouchableOpacity style={styles.logout} onPress={() => toLogin()}>
+                            <Text>Logout</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -247,4 +257,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 25
     },
+    logout: {
+        display: 'flex',
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 8
+    }
 });
