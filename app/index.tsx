@@ -22,6 +22,10 @@ export default function Login(){
         navigation.navigate("register");
     }
 
+    const toForgot = () => {
+        navigation.navigate("forgotPass");
+    }
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -52,8 +56,8 @@ export default function Login(){
                 <Text style={styles.divGeral}>E-mail</Text>
                 <TextInput value={email} onChangeText={setEmail} placeholder='Your e-mail' style={styles.input}></TextInput>
                 <Text style={styles.divGeral}>Password</Text>
-                <TextInput value={password} onChangeText={setPassword} placeholder='Your password' style={styles.input}></TextInput>
-                <TouchableOpacity style={styles.a} onPress={toTabs}>
+                <TextInput value={password} onChangeText={setPassword} placeholder='Your password' style={styles.input} secureTextEntry={true}></TextInput>
+                <TouchableOpacity style={styles.a} onPress={toForgot}>
                     <Text style={styles.a}>Forgot password</Text>
                 </TouchableOpacity>
                 <View style={styles.divBtn}>

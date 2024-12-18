@@ -10,8 +10,8 @@ export default function ForgotPass() {
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const toLogin = () => {
-    navigation.navigate("index");
+  const toCodePass = () => {
+    navigation.navigate("codePass");
   }
 
   return (
@@ -26,7 +26,7 @@ export default function ForgotPass() {
               <Text style={styles.divGeral}>E-mail</Text>
               <TextInput placeholder='Your e-mail' style={styles.input}></TextInput>
               <View style={styles.divBtn}>
-                <TouchableOpacity onPress={toLogin} style={styles.btn}>
+                <TouchableOpacity onPress={toCodePass} style={styles.btn}>
                   <Text style={styles.textBtn}>Send email</Text>
                 </TouchableOpacity>
               </View>

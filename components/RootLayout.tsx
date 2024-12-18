@@ -6,6 +6,8 @@ export type RootStackParamList = {
   "+not-found": undefined;
   "register": undefined;
   "cart": undefined;
+  "forgotPass": undefined;
+  "codePass": undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();

@@ -16,6 +16,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 interface User{
     name:String;
     email:String;
+    phone:String;
+    cep: String;
+    rua: String;
+    cidade: String;
+    estado: String;
 };
 
 export default function Profile() {
@@ -52,6 +57,46 @@ export default function Profile() {
         setInterval(async()=>{await loadProfile()},1000)
     },[])
 
+    const [email, setEmail] = useState<string>(data?.email?.toString() || '');
+    const [phone, setPhone] = useState<string>(data?.phone?.toString() || '');
+    const [cep, setCep] = useState<string>(data?.cep?.toString() || '');
+    const [rua, setRua] = useState<string>(data?.rua?.toString() || '');
+    const [cidade, setCidade] = useState<string>(data?.cidade?.toString() || '');
+    const [estado, setEstado] = useState<string>(data?.estado?.toString() || '');
+
+
+    const saveChanges = async () => {
+        const updatedUser: User = {
+            name: data?.name || '',
+            email,
+            phone,
+            cep,
+            rua,
+            cidade,
+            estado
+        };
+    
+        // Recupera a lista de usuários do AsyncStorage
+        const item = await AsyncStorage.getItem("users");
+        if (item != null) {
+            let users: User[] = JSON.parse(item);
+    
+            // Atualiza o usuário com o id atual
+            let idOp = await AsyncStorage.getItem("userId");
+            if (idOp !== null) {
+                let id = Number(idOp);
+                users[id] = updatedUser;
+    
+                // Salva novamente a lista de usuários com as informações atualizadas
+                await AsyncStorage.setItem("users", JSON.stringify(users));
+            }
+        }
+    
+        // Fecha o modal após salvar as alterações
+        setModalVisible(false);
+    };
+    
+
 
     return (
         <LinearGradient style={styles.gradiente} start={{x:.2,y:1}} end={{x:1,y:.3}} locations={[0.1,0.6]} colors={['#f9f9f9', '#f9f9f9', '#f9f9f9',]}>
@@ -73,10 +118,10 @@ export default function Profile() {
                         <TextInput placeholder='Phone number' style={styles.input} value={userData.phone}></TextInput>
                         <Text style={styles.label}>Address</Text>
                         <View style={styles.inputBox}>
-                            <Text style={styles.textBox}>{userData.cep}</Text>
-                            <Text style={styles.textBox}>{userData.rua}</Text>
-                            <Text style={styles.textBox}>{userData.cidade}, {userData.estado}</Text>
-                            <Text style={styles.textBox}>Receptor: {userData.receptor}</Text>
+                            <Text style={styles.textBox}>{data?.cep ? data?.cep : "Finalize o registro de suas informações"}</Text>
+                            <Text style={styles.textBox}>{data?.rua ? data?.rua : ""}</Text>
+                            <Text style={styles.textBox}>{data?.cidade ? data?.cidade : ""}, {data?.estado? data?.estado : ""}</Text>
+                            <Text style={styles.textBox}>Receptor: {data?.name ? data?.name : ""}</Text>
                         </View>
                         <View style={styles.divBtn}>
                             <TouchableOpacity style={styles.btn} onPress={() => setModalVisible(true)}>
@@ -101,18 +146,31 @@ export default function Profile() {
                     </Pressable>
                     <Text style={styles.edit}>Edit info</Text>
                     <Text style={styles.label}>E-mail</Text>
-                    <TextInput placeholder='User email' style={styles.input} value={userData.email}></TextInput>
+                    <TextInput style={styles.input} value={email} onChangeText={setEmail}></TextInput>
                     <Text style={styles.label}>Phone</Text>
-                    <TextInput placeholder='Phone number' style={styles.input} value={userData.phone}></TextInput>
-                    <Text style={styles.label}>Address</Text>
-                    <View style={styles.inputBox}>
-                        <Text style={styles.textBox}>{userData.cep}</Text>
-                        <Text style={styles.textBox}>{userData.rua}</Text>
-                        <Text style={styles.textBox}>{userData.cidade}, {userData.estado}</Text>
-                        <Text style={styles.textBox}>Receptor: {userData.receptor}</Text>
+                    <TextInput style={styles.input} value={phone} onChangeText={setPhone}></TextInput>
+                    <View style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+                        <View style={{width: 120}}>
+                            <Text style={styles.label}>CEP</Text>
+                            <TextInput style={styles.input} value={cep} onChangeText={setCep}></TextInput>
+                        </View>
+                        <View style={{width: 230}}>
+                            <Text style={styles.label}>Rua</Text>
+                            <TextInput style={styles.input} value={rua} onChangeText={setRua}></TextInput>
+                        </View>
+                    </View>
+                    <View style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+                        <View style={{width: 175}}>
+                            <Text style={styles.label}>Cidade</Text>
+                            <TextInput style={styles.input} value={cidade} onChangeText={setCidade}></TextInput>
+                        </View>
+                        <View style={{width: 175}}>
+                            <Text style={styles.label}>Estado</Text>
+                            <TextInput style={styles.input} value={estado} onChangeText={setEstado}></TextInput>
+                        </View>
                     </View>
                     <View style={styles.divBtn}>
-                        <TouchableOpacity style={styles.btn} onPress={() => setModalVisible(!modalVisible)}>
+                        <TouchableOpacity style={styles.btn} onPress={() => {setModalVisible(!modalVisible); saveChanges()}}>
                             <Text style={styles.textBtn}>Save changes</Text>
                         </TouchableOpacity>
                     </View>

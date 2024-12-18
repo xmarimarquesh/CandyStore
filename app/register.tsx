@@ -47,9 +47,9 @@ export default function Register(){
                 <Text style={styles.divGeral}>Name</Text>
                 <TextInput placeholder='Your name' value={name} style={styles.input} onChangeText={setName}></TextInput>
                 <Text style={styles.divGeral}>Password</Text>
-                <TextInput placeholder='Password' value={password} style={styles.input} onChangeText={setPassword}></TextInput>
+                <TextInput placeholder='Password' secureTextEntry={true} value={password} style={styles.input} onChangeText={setPassword}></TextInput>
                 <Text style={styles.divGeral}>Confirm password</Text>
-                <TextInput placeholder='Confirm password' value={confirmPassword} style={styles.input} onChangeText={setConfirmPassword}></TextInput>
+                <TextInput placeholder='Confirm password' secureTextEntry={true} value={confirmPassword} style={styles.input} onChangeText={setConfirmPassword}></TextInput>
                 <View style={styles.divBtn}>
                     <TouchableOpacity onPress={onPress} style={styles.btn}>
                         <Text style={styles.textBtn}>Sign up</Text>
