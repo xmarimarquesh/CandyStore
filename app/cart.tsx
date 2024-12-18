@@ -5,11 +5,19 @@ import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@/components/RootLayout';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
+import { Float } from 'react-native/Libraries/Types/CodegenTypes';
+
+interface Cart {
+  id: string;
+  description: string;
+  price: number;
+}
 
 export default function Cart() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState<Cart[]>([]);
   const [qtd, setQtd] = useState<number[]>([]);
+  const [total, setTotal] = useState<Float>(0);
 
   const changeQtd = (id: number, op: string) => {
     const newQtd = [...qtd];
@@ -26,7 +34,6 @@ export default function Cart() {
     setQtd(newQtd);
   }
 
-
   useEffect(() => {
     const getCartProducts = async() => {
       try {
@@ -42,6 +49,13 @@ export default function Cart() {
 
     getCartProducts();
   }, []);
+
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item, index) => {
+      const itemTotal = item.price * qtd[index];  
+      return total + itemTotal;  
+    }, 0);
+  };
 
   const requireImg = (img: string) => {
 
@@ -97,6 +111,10 @@ export default function Cart() {
           renderItem={renderItem}
           keyExtractor={(item) => item.id} 
         />
+        <View style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 20}}>
+          <Text style={{fontWeight: "700", fontSize: 16}}>Total: ${calculateTotal().toFixed(2)}</Text>
+          <TouchableOpacity style={{backgroundColor: '#FF3869', paddingHorizontal: 40, padding: 4, borderRadius: 4}}><Text style={{color: 'white'}}>Order</Text></TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
