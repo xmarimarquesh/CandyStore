@@ -5,12 +5,34 @@ import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@/components/RootLayout';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
+import { Float } from 'react-native/Libraries/Types/CodegenTypes';
+
+interface Cart {
+  id: string;
+  description: string;
+  price: number;
+}
 
 export default function Cart() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [cartItems, setCartItems] = useState([]);
-  const [qtd, setQtd] = useState<number>(0);
+  const [cartItems, setCartItems] = useState<Cart[]>([]);
+  const [qtd, setQtd] = useState<number[]>([]);
+  const [total, setTotal] = useState<Float>(0);
 
+  const changeQtd = (id: number, op: string) => {
+    const newQtd = [...qtd];
+    if(op === "sum") {
+      newQtd[id]++;
+    } else {
+      if(newQtd[id] == 0) {
+        newQtd[id] == 0;
+      }
+      else {
+        newQtd[id]--;
+      }
+    }
+    setQtd(newQtd);
+  }
 
   useEffect(() => {
     const getCartProducts = async() => {
@@ -18,6 +40,7 @@ export default function Cart() {
         const cart = await AsyncStorage.getItem("my-cart");
         const cartProducts = cart ? JSON.parse(cart) : [];
         setCartItems(cartProducts);
+        setQtd(new Array(cartProducts.length).fill(1));
       }
       catch (e) {
         console.log("Carrinho vazio")
@@ -26,6 +49,13 @@ export default function Cart() {
 
     getCartProducts();
   }, []);
+
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item, index) => {
+      const itemTotal = item.price * qtd[index];  
+      return total + itemTotal;  
+    }, 0);
+  };
 
   const requireImg = (img: string) => {
 
@@ -47,21 +77,21 @@ export default function Cart() {
     navigation.navigate("(tabs)");
   }
 
-  const renderItem = ({ item }: { item: any }) => (
+  const renderItem = ({ item, index }: { item: any, index: number }) => (
     <View style={styles.cartItem}>
       <Image source={requireImg(item.image)} style={styles.productImage} />
       <View style={styles.productInfo}>
         <Text style={styles.productDescription}>{item.description}</Text>
-        <Text style={styles.productPrice}>${item.price}</Text>
+        <Text style={styles.productPrice}>${item.price * qtd[index]}</Text>
       </View>
       <View style={{width: '25%'}}>
         <View style={{display: 'flex', flexDirection: 'row', width: 48}}>
           <TouchableOpacity style={{backgroundColor: '#FF3869', width: 24, height: 24, justifyContent: 'center', alignItems: 'center', borderRadius: '100%'}}>
-            <Text style={{color: 'white', fontWeight: '500', fontSize: 20, textAlign: 'center', marginBottom: 4}}>+</Text>
+            <Text style={{color: 'white', fontWeight: '500', fontSize: 20, textAlign: 'center', marginBottom: 4}} onPress={() => changeQtd(index, "del")}>-</Text>
           </TouchableOpacity>
-          <Text style={{marginLeft: 6, marginRight: 6, fontWeight: '500', fontSize: 18}}>1</Text>
+          <Text style={{marginLeft: 6, marginRight: 6, fontWeight: '500', fontSize: 18}}>{qtd[index]}</Text>
           <TouchableOpacity style={{backgroundColor: '#FF3869', width: 24, height: 24, justifyContent: 'center', alignItems: 'center', borderRadius: '100%'}}>
-            <Text style={{color: 'white', fontWeight: '500', fontSize: 24, textAlign: 'center', marginBottom: 4}}>-</Text>
+            <Text style={{color: 'white', fontWeight: '500', fontSize: 24, textAlign: 'center', marginBottom: 4}} onPress={() => changeQtd(index, "sum")}>+</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -81,6 +111,10 @@ export default function Cart() {
           renderItem={renderItem}
           keyExtractor={(item) => item.id} 
         />
+        <View style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 20}}>
+          <Text style={{fontWeight: "700", fontSize: 16}}>Total: ${calculateTotal().toFixed(2)}</Text>
+          <TouchableOpacity style={{backgroundColor: '#FF3869', paddingHorizontal: 40, padding: 4, borderRadius: 4}}><Text style={{color: 'white'}}>Order</Text></TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
@@ -120,4 +154,4 @@ const styles = StyleSheet.create({
     color: 'gray',
     marginTop: 4,
   },
-});
+})

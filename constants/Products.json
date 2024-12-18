@@ -4,55 +4,63 @@
         "type": "1",
         "description": "Slice Cakes",
         "image": "prod1.png",
-        "price": 11
+        "price": 11,
+        "qtd": 1
     },
     {
         "id": "2",
         "type": "1",
         "description": "Whole Cakes",
         "image": "prod2.png",
-        "price": 4
+        "price": 4,
+        "qtd": 1
     },
     {
         "id": "3",
         "type": "1",
         "description": "Cup Cakes",
         "image": "prod3.png",
-        "price": 6
+        "price": 6,
+        "qtd": 1
     },
     {
         "id": "4",
         "type": "1",
         "description": "Macarrons",
         "image": "prod4.png",
-        "price": 8
+        "price": 8,
+        "qtd": 1
     },
     {
         "id": "5",
         "type": "1",
         "description": "Pastries",
         "image": "prod5.png",
-        "price": 9
+        "price": 9,
+        "qtd": 1
     },
     {
         "id": "6",
         "type": "1",
         "description": "Cookies",
         "image": "prod6.png",
-        "price": 9
+        "price": 9,
+        "qtd": 1
     },
     {
         "id": "5",
         "type": "1",
         "description": "Pastries",
         "image": "prod7.png",
-        "price": 9
+        "price": 9,
+        "qtd": 1
     },
     {
         "id": "6",
         "type": "1",
         "description": "Cookies",
         "image": "prod8.png",
-        "price": 9
+        "price": 9,
+        "qtd": 1
     }
 ]
