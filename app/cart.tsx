@@ -9,7 +9,22 @@ import { useEffect, useState } from 'react';
 export default function Cart() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [cartItems, setCartItems] = useState([]);
-  const [qtd, setQtd] = useState<number>(0);
+  const [qtd, setQtd] = useState<number[]>([]);
+
+  const changeQtd = (id: number, op: string) => {
+    const newQtd = [...qtd];
+    if(op === "sum") {
+      newQtd[id]++;
+    } else {
+      if(newQtd[id] == 0) {
+        newQtd[id] == 0;
+      }
+      else {
+        newQtd[id]--;
+      }
+    }
+    setQtd(newQtd);
+  }
 
 
   useEffect(() => {
@@ -18,6 +33,7 @@ export default function Cart() {
         const cart = await AsyncStorage.getItem("my-cart");
         const cartProducts = cart ? JSON.parse(cart) : [];
         setCartItems(cartProducts);
+        setQtd(new Array(cartProducts.length).fill(1));
       }
       catch (e) {
         console.log("Carrinho vazio")
@@ -47,21 +63,21 @@ export default function Cart() {
     navigation.navigate("(tabs)");
   }
 
-  const renderItem = ({ item }: { item: any }) => (
+  const renderItem = ({ item, index }: { item: any, index: number }) => (
     <View style={styles.cartItem}>
       <Image source={requireImg(item.image)} style={styles.productImage} />
       <View style={styles.productInfo}>
         <Text style={styles.productDescription}>{item.description}</Text>
-        <Text style={styles.productPrice}>${item.price}</Text>
+        <Text style={styles.productPrice}>${item.price * qtd[index]}</Text>
       </View>
       <View style={{width: '25%'}}>
         <View style={{display: 'flex', flexDirection: 'row', width: 48}}>
           <TouchableOpacity style={{backgroundColor: '#FF3869', width: 24, height: 24, justifyContent: 'center', alignItems: 'center', borderRadius: '100%'}}>
-            <Text style={{color: 'white', fontWeight: '500', fontSize: 20, textAlign: 'center', marginBottom: 4}}>+</Text>
+            <Text style={{color: 'white', fontWeight: '500', fontSize: 20, textAlign: 'center', marginBottom: 4}} onPress={() => changeQtd(index, "del")}>-</Text>
           </TouchableOpacity>
-          <Text style={{marginLeft: 6, marginRight: 6, fontWeight: '500', fontSize: 18}}>1</Text>
+          <Text style={{marginLeft: 6, marginRight: 6, fontWeight: '500', fontSize: 18}}>{qtd[index]}</Text>
           <TouchableOpacity style={{backgroundColor: '#FF3869', width: 24, height: 24, justifyContent: 'center', alignItems: 'center', borderRadius: '100%'}}>
-            <Text style={{color: 'white', fontWeight: '500', fontSize: 24, textAlign: 'center', marginBottom: 4}}>-</Text>
+            <Text style={{color: 'white', fontWeight: '500', fontSize: 24, textAlign: 'center', marginBottom: 4}} onPress={() => changeQtd(index, "sum")}>+</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -120,4 +136,4 @@ const styles = StyleSheet.create({
     color: 'gray',
     marginTop: 4,
   },
-});
+})
